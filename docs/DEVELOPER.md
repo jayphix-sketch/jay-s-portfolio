@@ -13,7 +13,7 @@ This is a **static portfolio website** for Jayphix Consults. There is no backend
 | Home | `index.html` | Hero, about, projects, services, testimonials, contact |
 | About | `about.html` | Education, hobbies, tools, nationality |
 
-The site is deployed as a **static site** on [Render](https://render.com) using `render.yaml`. After each push, Render runs `npm run build` and serves the `dist/` folder.
+The site is deployed on [Vercel](https://vercel.com) at **jay-s-portfolio-nine.vercel.app**. After each push to `main`, Vercel runs `npm run build` and serves the `dist/` folder.
 
 ---
 
@@ -37,7 +37,7 @@ The project was refactored to fix problems that caused broken images, duplicate 
 
 | Before (do not go back to this) | After (current) | Why it matters |
 |--------------------------------|-----------------|----------------|
-| `styles copy.css`, `script copy.js` | `assets/css/styles.css`, `assets/js/*.js` | Filenames with spaces break URLs on Linux (Render) |
+| `styles copy.css`, `script copy.js` | `assets/css/styles.css`, `assets/js/*.js` | Filenames with spaces break URLs on Linux servers (Vercel) |
 | Images at repo root (`image copy.png`) | `assets/images/profile.png` | Predictable paths; images load in production |
 | One 267-line JavaScript file | 5 small ES modules | Easier to find and edit one feature at a time |
 | `index copy.html` + `dashboard copy.html` | `index.html` + `about.html` | One file per page — no confusion about which is "real" |
@@ -62,7 +62,7 @@ The project was refactored to fix problems that caused broken images, duplicate 
 | `assets/images/` | All project and profile images | Add or replace images |
 | `dist/` | **Build output — never edit this** | Nothing — it is auto-generated |
 | `vite.config.js` | Dev server and build settings | Add a new HTML page to the build |
-| `render.yaml` | Deploy configuration for Render | Change build or deploy settings |
+| `vercel.json` | Deploy configuration for Vercel | Change build or output settings |
 
 ---
 
@@ -298,14 +298,16 @@ These are not bugs — they were left out of scope during the refactor:
 
 ## Deploy
 
-### Render (configured)
+### Vercel (configured)
 
-`render.yaml` tells Render to:
+Live URL: **https://jay-s-portfolio-nine.vercel.app**
 
-1. Run `npm ci && npm run build`
+`vercel.json` tells Vercel to:
+
+1. Run `npm run build`
 2. Serve the `dist/` folder
 
-Push to `main` and Render deploys automatically if the repo is connected.
+Push to `main` and Vercel deploys automatically when the repo is connected.
 
 ### Troubleshooting production issues
 
@@ -338,7 +340,7 @@ jay-s-portfolio/
 │   └── DEVELOPER.md        ← You are here
 ├── package.json
 ├── vite.config.js
-├── render.yaml
+├── vercel.json
 └── README.md
 ```
 

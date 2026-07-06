@@ -34,7 +34,9 @@ Output goes to `dist/`. **Do not edit `dist/` directly** — it is regenerated o
 
 ## Deploy
 
-Configured for [Render](https://render.com) static sites via `render.yaml`. Push to `main` to deploy.
+Live site: **[jay-s-portfolio-nine.vercel.app](https://jay-s-portfolio-nine.vercel.app)**
+
+Deployed on [Vercel](https://vercel.com) — push to `main` to trigger a new deploy. Build command: `npm run build`, output: `dist/` (see `vercel.json`).
 
 ## Contact form
 
