@@ -286,7 +286,7 @@
 
   .hero-profile {
     display: block;
-    max-width: 460px;
+    max-width: 690px;
     width: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
@@ -304,8 +304,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    max-width: 520px;
-    margin: 0.59rem auto 0;
+    max-width: 740px;
+    margin: 3.5rem auto 0;
   }
 
   .hero-image-ring {
@@ -385,7 +385,12 @@
 
   @media (min-width: 1024px) {
     .hero-hero-top {
-      grid-template-columns: 1.4fr 320px;
+      grid-template-columns: minmax(0, 1.05fr) minmax(500px, 0.95fr);
+    }
+
+    .hero-image-frame {
+      margin-top: 4rem;
+      transform: translateX(0.75rem);
     }
   }
 
@@ -411,6 +416,17 @@
 
   @media (max-width: 1024px) {
     .hero-tech-dots { display: none; }
+  }
+
+  @media (max-width: 1180px) and (min-width: 1024px) {
+    .hero-profile {
+      max-width: 600px;
+    }
+
+    .hero-image-frame {
+      max-width: 650px;
+      transform: none;
+    }
   }
 
   .btn-primary:hover::before {
@@ -515,7 +531,9 @@
 
   .contact-card--icon .fa-linkedin,
   .contact-card--icon .fa-whatsapp,
-  .contact-card--icon .fa-envelope {
+  .contact-card--icon .fa-envelope,
+  .contact-card--icon .fa-tiktok,
+  .contact-card--icon .fa-github {
     color: #FFFFFF;
   }
 
@@ -645,48 +663,43 @@
     justify-content: center;
   }
 
-  /* Use PNGs as masks so we can tint them with the accent color */
-  .dashboard-page .mask-illustrator,
-  .dashboard-page .mask-photoshop {
-    width: 44px;
-    height: 44px;
-    display: inline-block;
-    background-color: var(--accent) !important;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    mask-size: contain;
-    -webkit-mask-mode: luminance;
-    mask-mode: luminance;
-  }
-
-  .dashboard-page .mask-illustrator {
-    -webkit-mask-image: url('illustrator.png');
-    mask-image: url('illustrator.png');
-    /* Fallback: show the PNG centered on the accent background if masking unsupported */
-    background-image: url('illustrator.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 60%;
-  }
-
-  .dashboard-page .mask-photoshop {
-    -webkit-mask-image: url('photoshop.png');
-    mask-image: url('photoshop.png');
-    /* Fallback: show the PNG centered on the accent background if masking unsupported */
-    background-image: url('photoshop.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 60%;
-  }
-
   .dashboard-page .tool-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: var(--bg-alt);
+  }
+
+  .dashboard-page .tool-icon-image {
+    position: relative;
+    padding: 0.35rem;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(249, 210, 71, 0.12);
+  }
+
+  .dashboard-page .tool-icon-image::before {
+    content: '';
+    position: absolute;
+    inset: 0.45rem;
+    background: var(--accent-bright);
+    -webkit-mask: var(--tool-icon-src) center / contain no-repeat;
+    mask: var(--tool-icon-src) center / contain no-repeat;
+    z-index: 1;
+  }
+
+  .dashboard-page .tool-icon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+  }
+
+  .dashboard-page .tool-icon-illustrator {
+    --tool-icon-src: url('../images/illustrator.png');
+  }
+
+  .dashboard-page .tool-icon-photoshop {
+    --tool-icon-src: url('../images/illustrator.png');
   }
 
   /* CV preview iframe */
@@ -715,7 +728,7 @@
 
   /* Center the two-column rows and make the nationality card span visually */
   .dashboard-page .grid-cols-1.lg\:grid-cols-2 > div { display: flex; }
-  .dashboard-page .dashboard-card.max-w-[920px] { max-width: 920px; }
+  .dashboard-page .dashboard-card-wide { max-width: 920px; }
 
   @media (max-width: 1023px) {
     .dashboard-page .tools-grid { grid-template-columns: 1fr 1fr; }
@@ -882,6 +895,66 @@
     box-shadow: var(--shadow-sm);
   }
 
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 50%;
+    background: rgba(7, 11, 23, 0.68);
+    color: #FFFFFF;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .modal-nav:hover {
+    background: var(--accent-bright);
+    color: #111111;
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  .modal-nav-prev {
+    left: 1rem;
+  }
+
+  .modal-nav-next {
+    right: 1rem;
+  }
+
+  .modal-nav.hidden,
+  .modal-count.hidden {
+    display: none;
+  }
+
+  .modal-count {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 640px) {
+    .modal-nav {
+      width: 42px;
+      height: 42px;
+    }
+
+    .modal-nav-prev {
+      left: 0.5rem;
+    }
+
+    .modal-nav-next {
+      right: 0.5rem;
+    }
+  }
+
   .project-card,
   .service-card,
   .portfolio-card {
@@ -906,6 +979,89 @@
     border-radius: 22px;
     background: linear-gradient(135deg, rgba(249, 210, 71, 0.18), rgba(249, 210, 71, 0.06));
     border: 1px solid rgba(249, 210, 71, 0.12);
+  }
+
+  .project-slider {
+    position: relative;
+    min-height: 220px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(249, 210, 71, 0.18), rgba(249, 210, 71, 0.06));
+    border: 1px solid rgba(249, 210, 71, 0.12);
+  }
+
+  .project-slider .project-thumb {
+    position: absolute;
+    inset: 0;
+    min-height: 220px;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.02);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+
+  .project-slider .project-thumb.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+  }
+
+  .project-slider .project-thumb img {
+    width: 100%;
+    height: 220px;
+    border-radius: 0;
+    object-fit: cover;
+  }
+
+  .project-slider .project-thumb:hover img {
+    transform: scale(1.03);
+  }
+
+  .project-slider-controls {
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    top: 50%;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+
+  .project-slider-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 999px;
+    background: rgba(7, 11, 23, 0.62);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .project-slider-btn:hover {
+    transform: scale(1.06);
+    background: rgba(249, 210, 71, 0.92);
+    border-color: rgba(249, 210, 71, 0.92);
+    color: #111111;
+  }
+
+  .project-slider-count {
+    position: absolute;
+    right: 0.85rem;
+    bottom: 0.85rem;
+    z-index: 3;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(7, 11, 23, 0.68);
+    color: #FFFFFF;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
   }
 
   .project-card:hover,
@@ -1335,4 +1491,70 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-bright);
+}
+
+.mobile-link {
+  color: var(--fg);
+  transition: color 0.25s ease;
+}
+
+.mobile-link:hover {
+  color: var(--accent-bright);
+}
+
+.toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  z-index: 70;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.project-link {
+  color: var(--accent-bright);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  transition: opacity 0.2s ease;
+}
+
+.project-link:hover {
+  opacity: 0.85;
+}
+
+.project-card.is-hidden {
+  display: none;
 }
